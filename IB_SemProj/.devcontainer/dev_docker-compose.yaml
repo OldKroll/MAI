@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  ib_service:
+    volumes:
+      - vscode-extensions:/home/user/.vscode-server/extensions
+      - /home/${WSL_USERNAME}/.ssh:/home/${USER_NAME}/.ssh:ro
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+volumes:
+  vscode-extensions:
+    external: true

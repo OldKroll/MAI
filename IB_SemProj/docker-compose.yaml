@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  ib_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ib_service
+    volumes:
+      - .:/home/${USER_NAME}/${DEV_FOLDER}:cached
+    env_file:
+      - .env
+    ports:
+      - "8001:8000"
+    command: python3 manage.py runserver # поменять
+
+  ib_pg_db:
+    image: postgres:17
+    container_name: ib_pg_db
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+    volumes:
+      - ib_postgres_data:/var/lib/postgresql/data
+      # - ./init:/docker-entrypoint-initdb.d/
+    ports:
+      - "5455:5432"
+
+volumes:
+  ib_postgres_data:
