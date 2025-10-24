@@ -1,1 +1,12 @@
-123
+{% extends "base.html" %}
+{% load static %}
+{% block title %}<title>Cipher</title>{% endblock %}
+{% block content %}
+    <div class="container col-xl-10"
+         style="display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 1em">
+        <h5 style="margin-top: 2em">Здесь можно что-нибудь зашифровать</h5>
+    </div>
+{% endblock %}

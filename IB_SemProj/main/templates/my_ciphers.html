@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Мои шифры</title>
+{% endblock title %}
+{% block content %}
+    <div class="container col-xl-10"
+         style="display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 1em">
+        <h3>Список шифров</h3>
+        {% if ciphers_list %}
+            {% for cipher in ciphers_list %}
+                <div class="card" style="width: 70%; margin-top: 1em">
+                    <div class="card-body">
+                        <h5 class="card-title">Шифр № {{ cipher.id }}</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Тип шифра: {{ cipher.cipher_type }}</li>
+                            <li class="list-group-item">Текст:<br>{{ cipher.text }}</li>
+                            <li class="list-group-item">Шифр:<br>{{ cipher.ciphered }}</li>
+                        </ul>
+                        <a href="#" class="card-link">Скачать PDF с ЭЦП</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="margin-top: 2em">Нет созданных шифров.</p>
+            {% endif %}
+        </div>
+    {% endblock content %}

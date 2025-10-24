@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Авторизация</title>
+{% endblock title %}
+{% block content %}
+    <div class="container col-xl-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Логин</label>
+                <input type="text" name="username" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Пароль</label>
+                <input type="password" name="password" class="form-control">
+            </div>
+            <div class="mb-3">
+                <a class="link-secondary"
+                   for="exampleCheck1"
+                   href="{% url 'main:singup' %}">Регистрация</a>
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
+            {% if err %}<div class="alert alert-danger" style="margin-top: 15px">Ошибка входа!</div>{% endif %}
+        </form>
+        {% if step == 2 %}<div id="qrcode" />{% endif %}</div>
+{% endblock content %}
+{% block script %}
+    {% if step == 2 %}
+        <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+        <script>
+        const qrcode = new QRCode(document.getElementById('qrcode'), {
+                text: 'https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js',
+                width: 128,
+                height: 128,
+                colorDark : '#000',
+                colorLight : '#fff',
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        </script>
+    {% endif %}
+{% endblock script %}

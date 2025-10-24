@@ -1,0 +1,1 @@
+from main.utils.kuznechik.kuznechik import kuznechik_encrypt, kuznechik_decrypt

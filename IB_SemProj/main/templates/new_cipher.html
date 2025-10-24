@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Новый шифр</title>
+{% endblock title %}
+{% block content %}
+    <div class="container col-xl-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Выбрите тип шифра</label>
+                <select class="form-select" name="cipher_type">
+                    <option selected value="rsa">RSA</option>
+                    <option value="kuznechik">Кузнечик</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Введите текст</label>
+                <textarea class="form-control" name="text"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Зашифровать</button>
+            {% if err %}<div class="alert alert-danger" style="margin-top: 15px">Ошибка шифровки!</div>{% endif %}
+        </form>
+    </div>
+{% endblock content %}

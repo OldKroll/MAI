@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Регистрация</title>
+{% endblock title %}
+{% block content %}
+    <div class="container col-xl-4">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Логин</label>
+                <input type="text" name="username" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Пароль</label>
+                <input type="password" name="password1" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Повторите пароль</label>
+                <input type="password" name="password2" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Регистрация</button>
+            {% if err %}
+                <div class="alert alert-danger" style="margin-top: 15px">
+                    Ошибка входа!<br>
+                    {{ detail }}
+                </div>
+            {% endif %}
+        </form>
+    </div>
+{% endblock content %}
