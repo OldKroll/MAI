@@ -45,30 +45,30 @@ def mod_int_as_polynomial(x, m):
         x ^= mshift
 
 
-def kuznyechik_multiplication(x, y):
+def kuznechik_multiplication(x, y):
     z = multiply_ints_as_polynomials(x, y)
     m = int("111000011", 2)
     return mod_int_as_polynomial(z, m)
 
 
-def kuznyechik_linear_functional(x):
+def kuznechik_linear_functional(x):
     C = [148, 32, 133, 16, 194, 192, 1, 251, 1, 192, 194, 16, 133, 32, 148, 1]
     y = 0
     while x != 0:
-        y ^= kuznyechik_multiplication(x & 0xFF, C.pop())
+        y ^= kuznechik_multiplication(x & 0xFF, C.pop())
         x >>= 8
     return y
 
 
 def R(x):
-    a = kuznyechik_linear_functional(x)
+    a = kuznechik_linear_functional(x)
     return (a << 8 * 15) ^ (x >> 8)
 
 
 def R_inv(x):
     a = x >> 15 * 8
     x = (x << 8) & (2**128 - 1)
-    b = kuznyechik_linear_functional(x ^ a)
+    b = kuznechik_linear_functional(x ^ a)
     return x ^ b
 
 def L(x):
@@ -81,7 +81,7 @@ def L_inv(x):
         x = R_inv(x)
     return x
 
-def kuznyechik_key_schedule(k):
+def kuznechik_key_schedule(k):
     keys = []
     a = k >> 128
     b = k & (2**128 - 1)
@@ -98,13 +98,13 @@ def kuznyechik_key_schedule(k):
 
 def kuznechik_encrypt(msg: str, k: int | None = DEFAULT_KEY):
     x = int(msg.encode().hex(), 16)
-    keys = kuznyechik_key_schedule(k)
+    keys = kuznechik_key_schedule(k)
     for round in range(9):
         x = L(S(x ^ keys[round]))
     return x ^ keys[-1]
 
 def kuznechik_decrypt(x, k):
-    keys = kuznyechik_key_schedule(k)
+    keys = kuznechik_key_schedule(k)
     keys.reverse()
     for round in range(9):
         x = S_inv(L_inv(x ^ keys[round]))

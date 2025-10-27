@@ -6,30 +6,51 @@
     <div class="container col-xl-4">
         <form method="post">
             {% csrf_token %}
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Логин</label>
-                <input type="text" name="username" class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Пароль</label>
-                <input type="password" name="password" class="form-control">
-            </div>
-            <div class="mb-3">
-                <a class="link-secondary"
-                   for="exampleCheck1"
-                   href="{% url 'main:singup' %}">Регистрация</a>
-            </div>
-            <button type="submit" class="btn btn-primary">Войти</button>
+            {% if step == 1 %}
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Логин</label>
+                    <input type="text" name="username" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Пароль</label>
+                    <input type="password" name="password" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <a class="link-secondary"
+                       for="exampleCheck1"
+                       href="{% url 'main:singup' %}">Регистрация</a>
+                </div>
+                <button type="submit" class="btn btn-primary">Войти</button>
+            {% endif %}
+            {% if step == 2 or step == 3 %}
+                {% if otp_url %}
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">QR код OTP-приложения:</label>
+                        <div id="qrcode"></div>
+                    </div>
+                {% endif %}
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">
+                        {% if step == 2 %}
+                            Введите одноразовый код OTP-приложения:
+                        {% else %}
+                            Введите одноразовый код, отправленный на привязанный email:
+                        {% endif %}
+                    </label>
+                    <input type="text" name="otp_code" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Подтвердить код</button>
+            {% endif %}
             {% if err %}<div class="alert alert-danger" style="margin-top: 15px">Ошибка входа!</div>{% endif %}
         </form>
-        {% if step == 2 %}<div id="qrcode" />{% endif %}</div>
+    </div>
 {% endblock content %}
 {% block script %}
-    {% if step == 2 %}
+    {% if step == 2 and otp_url %}
         <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
         <script>
         const qrcode = new QRCode(document.getElementById('qrcode'), {
-                text: 'https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js',
+                text: '{{ otp_url }}',
                 width: 128,
                 height: 128,
                 colorDark : '#000',

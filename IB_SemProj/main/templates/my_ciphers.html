@@ -19,7 +19,7 @@
                             <li class="list-group-item">Текст:<br>{{ cipher.text }}</li>
                             <li class="list-group-item">Шифр:<br>{{ cipher.ciphered }}</li>
                         </ul>
-                        <a href="#" class="card-link">Скачать PDF с ЭЦП</a>
+                        <a href="{% url 'main:download_cipher' cipher_id=cipher.id %}" class="card-link">Скачать PDF с ЭЦП</a>
                     </div>
                 </div>
                 {% endfor %}
