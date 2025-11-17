@@ -2,12 +2,13 @@
 Модуль генерации больших простых чисел.
 """
 
+import random
 from time import time
 from typing import Generator
 import sys
 
 
-sys.set_int_max_str_digits(10000)
+sys.set_int_max_str_digits(0)
 
 
 def __linear_congruental_generator(x: int) -> Generator[int, int, int]:
@@ -98,18 +99,10 @@ def generate_large_prime(bits: int = 1024, k: int = 40) -> int:
         l_prime = generate_candidate(bits)
         if is_prime(l_prime):
             return l_prime
+        else:
+            return False
+
 
 if __name__ == "__main__":
-    a = rndint(0, 1)
-    print(next(a))
-    print(next(a))
-    print(next(a))
-    print(next(a))
-    print(next(a))
-    print(next(a))
-    print(next(a))
-    print(next(a))
     a = generate_large_prime(2048)
     print(a)
-    print(is_prime(a))
-    print(type(a))
