@@ -98,6 +98,7 @@ def kuznechik_key_schedule(k):
 
 def kuznechik_encrypt(msg: str, k: int | None = DEFAULT_KEY):
     x = int(msg.encode().hex(), 16)
+    x = msg
     keys = kuznechik_key_schedule(k)
     for round in range(9):
         x = L(S(x ^ keys[round]))
@@ -113,10 +114,11 @@ def kuznechik_decrypt(x, k):
 
 
 if __name__ == "__main__":
-    msg = "hello world"
+    msg = "1122334455667700ffeeddccbbaa9988"
+    msg = int("1122334455667700ffeeddccbbaa9988", 16)
     print(msg)
     k = int("8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef", 16)
-
+    
     CT = kuznechik_encrypt(msg, k)
     print(hex(CT))
     DT = kuznechik_decrypt(CT, k)

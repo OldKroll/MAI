@@ -17,6 +17,7 @@ EditorConfig==0.17.1
 executing==2.2.1
 fonttools==4.60.1
 fpdf2==2.8.4
+gmpy2==2.2.1
 idna==3.11
 ipython==9.6.0
 ipython_pygments_lexers==1.1.1

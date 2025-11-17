@@ -55,13 +55,13 @@ def log_in(request: HttpRequest):
             user = User.objects.get(username=request.session["username"])
             if pyotp.TOTP(user.otp_secret_app).verify(request.POST.get("otp_code", 0)):
                 request.session["step"] = 3
-                send_otp_code(user.email, pyotp.TOTP(user.otp_secret_email).now())
+                send_otp_code(user.email, pyotp.TOTP(user.otp_secret_email, interval=180).now())
                 return render(request, "login.html", context={"step": 3})
             else:
                 return render(request, "login.html", context={"step": 2, "err": True})
         elif step == 3:
             user = User.objects.get(username=request.session["username"])
-            if pyotp.TOTP(user.otp_secret_email).verify(
+            if pyotp.TOTP(user.otp_secret_email, interval=180).verify(
                 request.POST.get("otp_code", 0)
             ):
                 del request.session["step"]
