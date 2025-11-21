@@ -98,7 +98,6 @@ def kuznechik_key_schedule(k):
 
 def kuznechik_encrypt(msg: str, k: int | None = DEFAULT_KEY):
     x = int(msg.encode().hex(), 16)
-    x = msg
     keys = kuznechik_key_schedule(k)
     for round in range(9):
         x = L(S(x ^ keys[round]))
